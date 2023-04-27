@@ -4,14 +4,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
+
 public class Assignment8 {
     private List<Integer> numbers = null;
     private AtomicInteger i = new AtomicInteger(0);
+
+    List<Integer> newList = new ArrayList<>();
+
 
     public Assignment8() {
         try {
@@ -21,24 +29,29 @@ public class Assignment8 {
                     .stream()
                     .map(n -> Integer.parseInt(n))
                     .collect(Collectors.toList());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    ExecutorService cpuBoundTask = Executors.newFixedThreadPool(6);
+
 
     /**
      * This method will return the numbers that you'll need to process from the list
      * of Integers. However, it can only return 1000 records at a time. You will
      * need to call this method 1,000 times in order to retrieve all 1,000,000
      * numbers from the list
-     * 
+     *
      * @return Integers from the parsed txt file, 1,000 numbers at a time
      */
+
     public List<Integer> getNumbers() {
         int start, end;
         synchronized (i) {
             start = i.get();
-            end = i.addAndGet(1000);
+            end = i.addAndGet(500000);
 
             System.out.println("Starting to fetch records " + start + " to " + (end));
         }
@@ -49,12 +62,28 @@ public class Assignment8 {
         } catch (InterruptedException e) {
         }
 
-        List<Integer> newList = new ArrayList<>();
+        //List<Integer> newList = new ArrayList<>();
         IntStream.range(start, end)
                 .forEach(n -> {
                     newList.add(numbers.get(n));
                 });
+
         System.out.println("Done Fetching records " + start + " to " + (end));
+
+        return newList;
+    }
+
+    public List<Integer> countNumbers() {
+        Map<Object, List<Integer>> groupByNumCount = newList.stream().collect(Collectors
+                .groupingBy((num) -> num.intValue()));
+
+        for (Map.Entry<Object, List<Integer>> entry : groupByNumCount.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue().stream()
+                    .mapToInt(count -> count)
+                    .count());
+            //System.out.println(groupByNumCount.entrySet());
+        }
+
         return newList;
     }
 
