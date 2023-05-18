@@ -20,7 +20,6 @@ public class Assignment8 {
 
     List<Integer> newList = new ArrayList<>();
 
-
     public Assignment8() {
         try {
             // Make sure you download the output.txt file for Assignment 8
@@ -35,8 +34,7 @@ public class Assignment8 {
         }
     }
 
-    ExecutorService cpuBoundTask = Executors.newFixedThreadPool(6);
-
+    //ExecutorService cpuBoundTask = Executors.newFixedThreadPool(6);
 
     /**
      * This method will return the numbers that you'll need to process from the list
@@ -51,7 +49,7 @@ public class Assignment8 {
         int start, end;
         synchronized (i) {
             start = i.get();
-            end = i.addAndGet(500000);
+            end = i.addAndGet(1000);
 
             System.out.println("Starting to fetch records " + start + " to " + (end));
         }
@@ -69,7 +67,6 @@ public class Assignment8 {
                 });
 
         System.out.println("Done Fetching records " + start + " to " + (end));
-
         return newList;
     }
 
