@@ -70,18 +70,18 @@ public class Assignment8 {
         return newList;
     }
 
-    public List<Integer> countNumbers() {
-        Map<Object, List<Integer>> groupByNumCount = newList.stream().collect(Collectors
-                .groupingBy((num) -> num.intValue()));
-
-        for (Map.Entry<Object, List<Integer>> entry : groupByNumCount.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue().stream()
-                    .mapToInt(count -> count)
-                    .count());
-            //System.out.println(groupByNumCount.entrySet());
-        }
-
-        return newList;
-    }
+//    public List<Integer> countNumbers() {
+//        Map<Object, List<Integer>> groupByNumCount = newList.stream().collect(Collectors
+//                .groupingBy((num) -> num.intValue()));
+//
+//        for (Map.Entry<Object, List<Integer>> entry : groupByNumCount.entrySet()) {
+//            System.out.println(entry.getKey() + " -> " + entry.getValue().stream()
+//                    .mapToInt(count -> count)
+//                    .count());
+//            //System.out.println(groupByNumCount.entrySet());
+//        }
+//
+//        return newList;
+//    }
 
 }
